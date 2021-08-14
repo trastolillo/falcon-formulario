@@ -11,6 +11,7 @@ import { faExclamationTriangle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Input, { ValorValidacion } from './componentes/Input';
 import { useState } from 'react';
+import { isExpressionWithTypeArguments } from 'typescript';
 
 const App = () => {
   const estadoInicial: ValorValidacion = { campo: '', valido: null };
@@ -21,6 +22,14 @@ const App = () => {
   const [correo, setCorreo] = useState(estadoInicial);
   const [telefono, setTelefono] = useState(estadoInicial);
 
+  const expresiones = {
+    usuario: /^[a-zA-Z0-9_-]{4,16}$/, // Letras, numeros, guion y guion_bajo
+    nombre: /^[a-zA-ZÀ-ÿ\s]{1,40}$/, // Letras y espacios, pueden llevar acentos.
+    password: /^.{4,12}$/, // 4 a 12 digitos.
+    correo: /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/,
+    telefono: /^\d{7,14}$/, // 7 a 14 numeros.
+  };
+
   return (
     <main>
       <Formulario action=''>
@@ -29,18 +38,20 @@ const App = () => {
           label='Usuario'
           placeholder='Caquis123'
           leyendaError='El usuario no puede tener espacios'
-          expresionRegular=''
+          expresionRegular={expresiones.usuario}
           estado={usuario}
           setEstado={setUsuario}
+          valido
         />
         <Input
           tipo='password'
           label='Contraseña'
           placeholder='Contraseña'
           leyendaError='LoremImpum'
-          expresionRegular=''
+          expresionRegular={expresiones.password}
           estado={password}
           setEstado={setPassword}
+          valido
         />
         <ContenedorTerminos>
           <Label>

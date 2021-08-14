@@ -17,7 +17,8 @@ type Props = {
   label: string;
   placeholder: string;
   leyendaError: string;
-  expresionRegular: string;
+  expresionRegular?: RegExp;
+  valido: boolean | null;
   estado: ValorValidacion;
   setEstado: React.Dispatch<React.SetStateAction<ValorValidacion>>;
 };
@@ -28,12 +29,31 @@ const Input: React.FC<Props> = ({
   tipo,
   leyendaError,
   expresionRegular,
+  valido,
   estado,
   setEstado,
 }) => {
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setEstado({ ...campo });
+    const currentState: ValorValidacion = {
+      campo: e.currentTarget.value,
+      valido: validacion(),
+    };
+    setEstado(currentState);
+    console.log(estado);
   };
+  const validacion = (): boolean | null => {
+    if (expresionRegular) {
+      if (expresionRegular.test(estado.campo)) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+    return null;
+  };
+
+  valido = estado.valido;
+
   return (
     <div>
       <Label htmlFor={label}>{label}</Label>
@@ -44,6 +64,9 @@ const Input: React.FC<Props> = ({
           id={label}
           value={estado.campo}
           onChange={onChange}
+          onKeyUp={validacion}
+          onBlur={validacion}
+          valido={estado.valido}
         />
         <IconoValidacion icon={faCheckCircle} />
       </GrupoInput>

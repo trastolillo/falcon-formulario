@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 
@@ -31,7 +31,10 @@ const GrupoInput = styled.div`
   z-index: 90;
 `;
 
-const Input = styled.input`
+type Props = {
+  valido: boolean | null;
+}
+const Input = styled.input<Props>`
   width: 100%;
   background: #ffff;
   border-radius: 3px;
@@ -46,6 +49,13 @@ const Input = styled.input`
     /* outline: none; */
     box-shadow: 3px 0px 30px rgba(163, 163, 163, 0.4);
   }
+
+  ${(p: Props) => p.valido
+    ? css`
+    border: 3px solid transparent !important;
+  ` : css`
+    border: 3px solid ${colores.error} !important;
+  `}
 `;
 
 const LeyendaError = styled.p`
