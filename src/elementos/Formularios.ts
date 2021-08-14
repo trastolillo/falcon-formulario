@@ -1,9 +1,13 @@
 import styled, { css } from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { log } from 'console';
 
+type Props = {
+  valido: boolean | null;
+}
 
 const colores = {
-  borde: '#0075f',
+  borde: '#0075ff',
   error: '#bb2929',
   exito: '#1ed12d',
 };
@@ -18,12 +22,16 @@ const Formulario = styled.form`
   }
 `;
 
-const Label = styled.label`
+const Label = styled.label<Props>`
   display: block;
   font-weight: 700;
   padding: 10px;
   min-height: 40px;
   cursor: pointer;
+
+  ${(p: Props) => !p.valido && css`
+    color: ${colores.error};
+  `}
 `;
 
 const GrupoInput = styled.div`
@@ -31,9 +39,7 @@ const GrupoInput = styled.div`
   z-index: 90;
 `;
 
-type Props = {
-  valido: boolean | null;
-}
+
 const Input = styled.input<Props>`
   width: 100%;
   background: #ffff;
@@ -44,34 +50,49 @@ const Input = styled.input<Props>`
   transition: .3s ease all;
   border: 3px solid transparent;
 
-  &:focus{
+  :focus{
     border: 3px solid ${colores.borde};
-    /* outline: none; */
+    outline: none;
     box-shadow: 3px 0px 30px rgba(163, 163, 163, 0.4);
   }
 
   ${(p: Props) => p.valido
     ? css`
-    border: 3px solid transparent !important;
+    border: 3px solid transparent;
   ` : css`
     border: 3px solid ${colores.error} !important;
   `}
 `;
 
-const LeyendaError = styled.p`
+const LeyendaError = styled.p<Props>`
   font-size: 12px;
   margin-bottom: 0;
   color: ${colores.error};
-  display: none;
+
+  ${(p: Props) => p.valido
+    ? css`
+      display: none;
+    `: css`
+      display: block
+  `}
 `;
 
-const IconoValidacion = styled(FontAwesomeIcon)`
+const IconoValidacion = styled(FontAwesomeIcon) <Props>`
   position: absolute;
   right: 10px;
   bottom: 14px;
   z-index: 100;
   font-size: 16px;
-  opacity: 0;
+  ${(p: Props) => p.valido == null && css`opacity: 0`};
+
+  ${(p: Props) => p.valido
+    ? css`
+      opacity: 1;
+      color: ${colores.exito};
+    `: css`
+      opacity: 1;
+      color: ${colores.error};
+  `}
 `;
 
 const ContenedorTerminos = styled.div`
