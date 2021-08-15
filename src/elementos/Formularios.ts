@@ -1,6 +1,5 @@
 import styled, { css } from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { log } from 'console';
 
 type Props = {
   valido: boolean | null;
@@ -97,7 +96,7 @@ const IconoValidacion = styled(FontAwesomeIcon) <Props>`
 `;
 
 const ContenedorTerminos = styled.div`
-  grid-column: span 2;
+  grid-column: 1 / -1;
   input {
     margin-right: 10px;
   }
@@ -107,7 +106,7 @@ const ContenedorBotonCentrado = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  grid-column: span 2;
+  grid-column: 1 / -1;
 `;
 
 const Boton = styled.button`
@@ -130,7 +129,6 @@ const Boton = styled.button`
 const MensajeExito = styled.p`
   font-size: 14px;
   color: ${colores.exito};
-  display: none;
 `;
 
 const MensajeError = styled.div`
@@ -139,7 +137,7 @@ const MensajeError = styled.div`
   background: #f66060;
   padding: 0 15px;
   border-radius: 3px;
-  grid-column: span 2;
+  grid-column: 1 / -1;
 
   p {
     margin: 0;

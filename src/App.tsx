@@ -145,7 +145,7 @@ const App = () => {
             Acepto los términos y condiciones
           </Label>
         </ContenedorTerminos>
-        {false && (
+        {formValido === false && (
           <MensajeError>
             <p>
               <FontAwesomeIcon icon={faExclamationTriangle} />
@@ -155,7 +155,9 @@ const App = () => {
         )}
         <ContenedorBotonCentrado>
           <Boton type='submit'>Enviar</Boton>
-          <MensajeExito>Formulario enviado exitosamente, cuate</MensajeExito>
+          {formValido && (
+            <MensajeExito>Formulario enviado exitosamente, cuate</MensajeExito>
+          )}
         </ContenedorBotonCentrado>
       </Formulario>
     </main>
