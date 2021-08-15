@@ -29,7 +29,7 @@ const Label = styled.label<Props>`
   min-height: 40px;
   cursor: pointer;
 
-  ${(p: Props) => !p.valido && css`
+  ${(p: Props) => p.valido !== null && !p.valido && css`
     color: ${colores.error};
   `}
 `;
@@ -56,7 +56,7 @@ const Input = styled.input<Props>`
     box-shadow: 3px 0px 30px rgba(163, 163, 163, 0.4);
   }
 
-  ${(p: Props) => p.valido
+  ${(p: Props) => p.valido || p.valido === null
     ? css`
     border: 3px solid transparent;
   ` : css`
@@ -69,7 +69,7 @@ const LeyendaError = styled.p<Props>`
   margin-bottom: 0;
   color: ${colores.error};
 
-  ${(p: Props) => p.valido
+  ${(p: Props) => p.valido || p.valido === null
     ? css`
       display: none;
     `: css`
@@ -83,13 +83,14 @@ const IconoValidacion = styled(FontAwesomeIcon) <Props>`
   bottom: 14px;
   z-index: 100;
   font-size: 16px;
-  ${(p: Props) => p.valido == null && css`opacity: 0`};
+  opacity: 0;
 
-  ${(p: Props) => p.valido
-    ? css`
+  ${(p: Props) => p.valido && css`
       opacity: 1;
       color: ${colores.exito};
-    `: css`
+    `}
+    
+    ${(p: Props) => !p.valido && css`
       opacity: 1;
       color: ${colores.error};
   `}

@@ -9,7 +9,6 @@ import {
   faCheckCircle,
   faTimesCircle,
 } from '@fortawesome/free-solid-svg-icons';
-import { IconProp } from '@fortawesome/fontawesome-svg-core';
 
 export type ValorValidacion = {
   campo: string;
@@ -47,23 +46,9 @@ const Input: React.FC<Props> = ({
   };
   const validacion = (): boolean | null => {
     if (expresionRegular) {
-      if (expresionRegular.test(estado.campo)) {
-        return true;
-      } else {
-        return false;
-      }
+      return expresionRegular.test(estado.campo);
     }
     return null;
-  };
-
-  const seleccionIconos = (): IconProp | void => {
-    if (estado.valido == null) {
-      return;
-    } else if (estado.valido) {
-      return faCheckCircle;
-    } else {
-      return faTimesCircle;
-    }
   };
 
   console.log(estado.valido);
@@ -84,10 +69,12 @@ const Input: React.FC<Props> = ({
           onBlur={validacion}
           valido={estado.valido}
         />
-        <IconoValidacion
-          icon={estado.valido ? faCheckCircle : faTimesCircle}
-          valido={estado.valido}
-        />
+        {estado.valido !== null && (
+          <IconoValidacion
+            icon={estado.valido ? faCheckCircle : faTimesCircle}
+            valido={estado.valido}
+          />
+        )}
       </GrupoInput>
       <LeyendaError valido={estado.valido}>{leyendaError}</LeyendaError>
     </div>

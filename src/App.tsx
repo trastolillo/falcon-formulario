@@ -13,7 +13,7 @@ import Input, { ValorValidacion } from './componentes/Input';
 import { useState } from 'react';
 
 const App = () => {
-  const estadoInicial: ValorValidacion = { campo: '', valido: true };
+  const estadoInicial: ValorValidacion = { campo: '', valido: null };
   const [usuario, setUsuario] = useState(estadoInicial);
   const [nombre, setNombre] = useState(estadoInicial);
   const [password, setPassword] = useState(estadoInicial);
