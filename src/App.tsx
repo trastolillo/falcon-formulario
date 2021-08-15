@@ -20,6 +20,8 @@ const App = () => {
   const [password2, setPassword2] = useState(estadoInicial);
   const [correo, setCorreo] = useState(estadoInicial);
   const [telefono, setTelefono] = useState(estadoInicial);
+  const [terminos, setTerminos] = useState(false);
+  const [formValido, setFormValido] = useState<boolean | null>(null);
 
   const expresiones = {
     usuario: /^[a-zA-Z0-9_-]{3,15}$/, // Letras, numeros, guion y guion_bajo
@@ -29,9 +31,47 @@ const App = () => {
     telefono: /^\d{7,14}$/, // 7 a 14 numeros.
   };
 
+  const validarPassword2 = () => {
+    if (password.campo.length > 0) {
+      if (password.campo === password2.campo) {
+        setPassword2((prev) => {
+          return { ...prev, valido: true };
+        });
+      } else {
+        setPassword2((prev) => {
+          return { ...prev, valido: false };
+        });
+      }
+    }
+  };
+
+  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (
+      usuario.valido &&
+      nombre.valido &&
+      password.valido &&
+      password2.valido &&
+      correo.valido &&
+      telefono.valido &&
+      terminos
+    ) {
+      setFormValido(true);
+      setUsuario(estadoInicial);
+      setNombre(estadoInicial);
+      setPassword(estadoInicial);
+      setPassword2(estadoInicial);
+      setCorreo(estadoInicial);
+      setTelefono(estadoInicial);
+      setTerminos(false);
+    } else {
+      setFormValido(false);
+    }
+  };
+
   return (
     <main>
-      <Formulario action=''>
+      <Formulario action='' onSubmit={onSubmit}>
         <Input
           tipo='text'
           label='Usuario'
@@ -63,12 +103,13 @@ const App = () => {
           valido
         />
         <Input
-          tipo='password2'
-          label='Repetir ontraseña'
-          placeholder='Contraseña'
+          tipo='password'
+          label='Repetir contraseña'
+          placeholder='Repetir contraseña'
           leyendaError='Las contraseñas deben coincidir'
           estado={password2}
           setEstado={setPassword2}
+          validacionPassword2={validarPassword2}
           valido
         />
         <Input
@@ -82,7 +123,7 @@ const App = () => {
           valido
         />
         <Input
-          tipo='email'
+          tipo='text'
           label='Teléfono'
           placeholder='555123223'
           leyendaError='7 a 14 números'
@@ -94,7 +135,13 @@ const App = () => {
 
         <ContenedorTerminos>
           <Label valido>
-            <input type='checkbox' name='terminos' id='terminos' />
+            <input
+              type='checkbox'
+              name='terminos'
+              id='terminos'
+              checked={terminos}
+              onChange={(e) => setTerminos(e.target.checked)}
+            />
             Acepto los términos y condiciones
           </Label>
         </ContenedorTerminos>

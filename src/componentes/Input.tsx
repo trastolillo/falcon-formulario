@@ -21,6 +21,7 @@ type Props = {
   placeholder: string;
   leyendaError: string;
   expresionRegular?: RegExp;
+  validacionPassword2?: () => void;
   valido: boolean | null;
   estado: ValorValidacion;
   setEstado: React.Dispatch<React.SetStateAction<ValorValidacion>>;
@@ -33,6 +34,7 @@ const Input: React.FC<Props> = ({
   leyendaError,
   expresionRegular,
   valido,
+  validacionPassword2,
   estado,
   setEstado,
 }) => {
@@ -42,16 +44,17 @@ const Input: React.FC<Props> = ({
       valido: validacion(),
     };
     setEstado(currentState);
+
     console.log(estado);
   };
   const validacion = (): boolean | null => {
-    if (expresionRegular) {
+    if (validacionPassword2) {
+      validacionPassword2();
+    } else if (expresionRegular) {
       return expresionRegular.test(estado.campo);
     }
     return null;
   };
-
-  console.log(estado.valido);
 
   return (
     <div>
